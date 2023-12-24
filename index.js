@@ -58,6 +58,12 @@ app.delete('/posts/:id', checkAuth, PostController.remove);
 app.post('/posts', checkAuth, postCreateValidation, PostController.create);
 app.patch('/posts/:id', checkAuth, PostController.update);
 
+// comments
+app.get('/posts/comments/all', PostController.getComment);
+app.post('/posts/comments', checkAuth, PostController.addComment);
+// app.patch('/posts/comments/:id', checkAuth, PostController.updateComment);
+app.delete('/posts/comments/:id', checkAuth, PostController.removeComment);
+
 // tags
 app.get('/tags', PostController.getLastTags);
 // ==============

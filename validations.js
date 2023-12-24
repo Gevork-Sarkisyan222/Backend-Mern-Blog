@@ -2,7 +2,6 @@ import { body } from 'express-validator';
 
 export const loginValidation = [
   body('email', 'не валидное почта').isEmail(),
-  // body('name', 'не валидное имя').isLength({ min: 6 }),
   body('password', 'не валидный пароль').isLength({ min: 6 }),
 ];
 

@@ -1,4 +1,5 @@
 import PostModel from '../models/Post.js';
+import CommentModel from '../models/Comment.js';
 
 export const getLastTags = async (req, res) => {
   try {
@@ -125,3 +126,79 @@ export const update = async (req, res) => {
     });
   }
 };
+
+// comments
+export const getComment = async (req, res) => {
+  try {
+    const comment = await CommentModel.find().populate('user').exec();
+
+    res.json(comment);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Не удалось получить коментарии',
+    });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const doc = new CommentModel({
+      text: req.body.text,
+      user: req.userId,
+    });
+
+    const comment = await doc.save();
+
+    res.json(comment);
+  } catch (err) {
+    res.status(500).json({
+      message: 'Не удалось написать коментарию',
+    });
+  }
+};
+
+export const removeComment = async (req, res) => {
+  try {
+    const commentId = req.params.id;
+
+    const deletedComment = await CommentModel.findByIdAndDelete(commentId);
+
+    if (!deletedComment) {
+      return res.status(404).json({
+        message: 'Комментария не найдена',
+      });
+    }
+
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.warn(err);
+    res.status(500).json({
+      message: 'Не удалось удалить комментарию',
+    });
+  }
+};
+
+// export const updateComment = async (req, res) => {
+//   try {
+//     const commentId = req.params.id;
+
+//     await CommentModel.updateOne(
+//       {
+//         _id: commentId,
+//       },
+//       {
+//         text: req.body.text,
+//       },
+//     );
+
+//     res.json({
+//       success: true,
+//     });
+//   } catch (err) {
+//     res.status(500).json({
+//       message: 'Не удалось изменить комментарии',
+//     });
+//   }
+// };
