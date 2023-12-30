@@ -8,8 +8,11 @@ import bcrypt from 'bcrypt';
 import checkAuth from './utils/checkAuth.js';
 import * as UserController from './controllers/UserController.js';
 import * as PostController from './controllers/PostController.js';
+import * as ChatController from './controllers/ChatController.js';
 import multer from 'multer';
 import cors from 'cors';
+
+// use it
 import handleValidationError from './utils/handleValidationError.js';
 
 const storage = multer.diskStorage({
@@ -64,6 +67,12 @@ app.post('/posts/comments', checkAuth, PostController.addComment);
 // app.patch('/posts/comments/:id', checkAuth, PostController.updateComment);
 app.delete('/posts/comments/:id', checkAuth, PostController.removeComment);
 
+// messages
+app.get('/chat/messages', ChatController.getMessages);
+app.post('/chat/messages', checkAuth, ChatController.createMessage);
+app.put('/chat/messages/:id', checkAuth, ChatController.editMessage);
+app.delete('/chat/messages/:id', checkAuth, ChatController.deleteMessage);
+
 // tags
 app.get('/tags', PostController.getLastTags);
 // ==============
@@ -75,6 +84,6 @@ app.listen(PORT, (err) => {
     console.log(err);
   }
 
-  console.log('Server OK');
+  console.log('Server Opended SUCCESSFULLY !!!');
   console.log(`http://localhost:${PORT}`);
 });
