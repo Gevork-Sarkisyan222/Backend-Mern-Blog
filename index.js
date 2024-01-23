@@ -36,7 +36,6 @@ mongoose
 const app = express();
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
-app.use(cors());
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -45,6 +44,10 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Credentials', true);
   next();
 });
+
+// commit
+
+app.use(cors());
 
 app.get('/', (req, res) => {
   res.send('Web Page');
